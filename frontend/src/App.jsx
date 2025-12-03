@@ -7,9 +7,10 @@ import AddUser from "./pages/admin/addUsers";
 import AddStore from "./pages/admin/AddStore";
 import UsersList from "./pages/admin/UsersList";
 import StoreList from "./pages/admin/StoreList";
+// import StoreList from "./pages/user/StoreList";
 
 // import UserDashboard from "./pages/user/UserDashboard";
-// import StoreList from "./pages/user/StoreList";
+import StoreListByUser from "./pages/users/StoreList";
 
 // import OwnerDashboard from "./pages/owner/OwnerDashboard";
 // import NotFound from "./pages/NotFound";
@@ -30,11 +31,11 @@ export default function App() {
          <Route path="/admin/add-store" element={<AddStore />} />
         <Route path="/admin/stores" element={<StoreList />} />
         <Route path="/admin/users" element={<UsersList />} />
+        <Route path="/user/stores" element={<StoreListByUser />} />
         {/*
 
    
         <Route path="/user/dashboard" element={<UserDashboard />} />
-        <Route path="/user/stores" element={<StoreList />} />
 
         <Route path="/owner/dashboard" element={<OwnerDashboard />} />
 

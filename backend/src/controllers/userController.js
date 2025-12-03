@@ -68,3 +68,29 @@ exports.updateRating = async (req, res) => {
   }
 };
 
+
+exports.getStores = async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT 
+        stores.id,
+        stores.name,
+        stores.email,
+        stores.address,
+        users.name AS owner_name,
+        COALESCE(AVG(ratings.rating), 0) AS avg_rating
+      FROM stores
+      JOIN users ON stores.owner_id = users.id
+      LEFT JOIN ratings ON stores.id = ratings.store_id
+      GROUP BY stores.id, users.name
+      ORDER BY stores.name ASC;
+    `);
+
+    res.json({ stores: result.rows });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+

@@ -27,7 +27,7 @@ export default function AddUser() {
       setMessage(res.data.message);
 
       // after creation, send admin to user list
-      setTimeout(() => navigate("/admin/users"), 1000);
+      setTimeout(() => navigate("/admin/dashboard"), 1000);
     } catch (err) {
       setMessage(err.response?.data?.message || "Error creating user");
     }

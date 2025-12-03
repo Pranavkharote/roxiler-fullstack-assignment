@@ -10,5 +10,6 @@ router.use(roleCheck("NORMAL_USER"));
 router.post("/rate-store", userController.rateStore);
 
 router.put("/rate-store", userController.updateRating);
+router.get("/stores", userController.getStores)
 
 module.exports = router;

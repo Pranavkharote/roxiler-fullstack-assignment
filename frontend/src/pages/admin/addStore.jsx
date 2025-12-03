@@ -21,7 +21,7 @@ export default function AddStore() {
   useEffect(() => {
     let mounted = true;
     setLoadingOwners(true);
-    api.get("/admin/users?role=STORE_OWNER")
+    api.get("/admin/get-users?role=STORE_OWNER")
       .then(res => {
         if (!mounted) return;
         // API returns { users: [...] } where each user contains id, name, email, role...
