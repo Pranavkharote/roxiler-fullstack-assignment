@@ -70,4 +70,46 @@ const login = async (req, res) => {
   }
 };
 
+exports.updatePassword = async (req, res) => {
+  const userId = req.user.userId;
+
+  const { oldPass, newPass } = req.body;
+
+  if (!oldPass || !newPass) {
+    return res.status(400).json({ msg: "old and new password required" });
+  }
+
+  try {
+    const userRes = await pool.query("SELECT password FROM users WHERE id=$1", [userId]);
+
+    if (userRes.rows.length === 0) {
+      return res.status(404).json({ msg: "user not found" });
+    }
+
+    const user = userRes.rows[0];
+
+    // checking old password
+    const match = await bcrypt.compare(oldPass, user.password);
+    if (!match) {
+      return res.status(400).json({ msg: "old password incorrect" });
+    }
+
+    // hash new password
+    const hashed = await bcrypt.hash(newPass, 10);
+
+    // update
+    await pool.query(
+      "UPDATE users SET password=$1 WHERE id=$2",
+      [hashed, userId]
+    );
+
+    return res.json({ msg: "password updated" });
+
+  } catch (err) {
+    console.log("update pass err", err);
+    res.status(500).json({ msg: "server error" });
+  }
+};
+
+
 module.exports = {login, register}

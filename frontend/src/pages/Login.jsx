@@ -81,6 +81,10 @@ export default function Login() {
         >
           Login
         </button>
+        <button onClick={() => navigate("/user/update-password")}>
+  Update Password
+</button>
+
       </form>
     </div>
   );

@@ -8,7 +8,7 @@ import AddStore from "./pages/admin/AddStore";
 import UsersList from "./pages/admin/UsersList";
 import StoreList from "./pages/admin/StoreList";
 // import StoreList from "./pages/user/StoreList";
-
+import UpdatePassword from "./pages/updatePassword";
 // import UserDashboard from "./pages/user/UserDashboard";
 import StoreListByUser from "./pages/users/StoreList";
 
@@ -25,6 +25,7 @@ export default function App() {
         <Route path="/register" element={<Register />} />
 
       */} 
+          <Route path="/user/update-password" element={<UpdatePassword/>}/>
          <Route path="/admin/dashboard" element={<AdminDashboard />} /> 
         <Route path="/admin/add-user" element={<AddUser />} />
           
