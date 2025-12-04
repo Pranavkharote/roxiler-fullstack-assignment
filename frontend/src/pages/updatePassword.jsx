@@ -26,7 +26,7 @@ function UpdatePassword() {
       return;
     }
 
-    api.patch("/user/update-password", form)
+    api.patch("/auth/user/update-password", form)
       .then((res) => {
         setMsg(res.data.msg || "updated");
         setForm({ oldPass: "", newPass: "" });

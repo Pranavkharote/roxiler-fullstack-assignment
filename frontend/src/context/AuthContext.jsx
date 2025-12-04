@@ -1,4 +1,6 @@
+import React from "react";
 import { createContext, useState, useEffect } from "react";
+
 
 export const AuthContext = createContext();
 
@@ -19,6 +21,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.clear();
     setUser(null);
+    navigate("/");
   };
 
   return (

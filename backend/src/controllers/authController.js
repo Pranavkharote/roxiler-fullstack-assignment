@@ -70,7 +70,7 @@ const login = async (req, res) => {
   }
 };
 
-exports.updatePassword = async (req, res) => {
+const updatePassword = async (req, res) => {
   const userId = req.user.userId;
 
   const { oldPass, newPass } = req.body;
@@ -112,4 +112,4 @@ exports.updatePassword = async (req, res) => {
 };
 
 
-module.exports = {login, register}
+module.exports = {login, register, updatePassword}

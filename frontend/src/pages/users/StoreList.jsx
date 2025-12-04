@@ -1,12 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import api from "../../api/axiosInstance";
+// import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function StoreList() {
+  const navigate = useNavigate();
 
   const [stores, setStores] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [ratingInput, setRatingInput] = useState({}); 
+  const [ratingInput, setRatingInput] = useState({});
   const [msg, setMsg] = useState("");
+    // const { logout } = useContext(AuthContext);
 
   useEffect(() => {
     loadStores();
@@ -25,9 +29,15 @@ function StoreList() {
       })
       .finally(() => setLoading(false));
   };
+   const logout = () => {
+    localStorage.clear();
+    navigate("/")
+    setUser(null);
+  };
 
   const handleRate = (store_id) => {
     const ratingVal = ratingInput[store_id];
+
     if (!ratingVal || ratingVal < 1 || ratingVal > 5) {
       setMsg("Enter rating between 1 and 5");
       return;
@@ -38,23 +48,26 @@ function StoreList() {
       rating: Number(ratingVal)
     })
       .then((resp) => {
-        setMsg("Rating submitted");
-        loadStores();  // refresh store list to update rating
+        setMsg(resp.data.msg || "done");
+        loadStores();  
       })
       .catch((err) => {
         console.log("rating err", err);
-        setMsg("Error saving rating");
+        setMsg("Something went wrong");
       });
   };
 
   if (loading) {
-    return <p>Loading stores...</p>
+    return <p>Loading stores...</p>;
   }
+
+
 
   return (
     <div style={{ padding: 20 }}>
       <h2>All Stores</h2>
 
+<button onClick={logout}>Logout</button>
       {msg && (
         <p style={{ color: "green" }}>{msg}</p>
       )}
@@ -65,18 +78,14 @@ function StoreList() {
         <div style={{ marginTop: 15 }}>
           {stores.map((st) => (
             <div key={st.id} style={box}>
-              <div style={{ marginBottom: 6 }}>
-                <b>{st.name}</b>
-              </div>
 
+              <div><b>{st.name}</b></div>
               <div>Address: {st.address}</div>
               <div>Avg Rating: {Number(st.avg_rating).toFixed(1)}</div>
 
-              <div>
-                Your Rating: {st.user_rating ? st.user_rating : "N/A"}
-              </div>
+              <div>Your Rating: {st.user_rating || "N/A"}</div>
 
-              {/* rating input */}
+              {/* Rating input box */}
               <div style={{ marginTop: 8 }}>
                 <input
                   type="number"
@@ -97,9 +106,10 @@ function StoreList() {
                   onClick={() => handleRate(st.id)}
                   style={{ marginLeft: 8, padding: "4px 8px" }}
                 >
-                  Submit
+                  {st.user_rating ? "Update Rating" : "Submit Rating"}
                 </button>
               </div>
+
             </div>
           ))}
         </div>

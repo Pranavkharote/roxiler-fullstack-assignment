@@ -3,10 +3,12 @@ import Login from "./pages/Login";
 // import Register from "./pages/Register";
 
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import OwnerDashboard from "./pages/owner/OwnerDashboard";
 import AddUser from "./pages/admin/addUsers";
 import AddStore from "./pages/admin/AddStore";
 import UsersList from "./pages/admin/UsersList";
 import StoreList from "./pages/admin/StoreList";
+import React from "react";
 // import StoreList from "./pages/user/StoreList";
 import UpdatePassword from "./pages/updatePassword";
 // import UserDashboard from "./pages/user/UserDashboard";
@@ -33,12 +35,12 @@ export default function App() {
         <Route path="/admin/stores" element={<StoreList />} />
         <Route path="/admin/users" element={<UsersList />} />
         <Route path="/user/stores" element={<StoreListByUser />} />
+        <Route path="/owner/dashboard" element={<OwnerDashboard />} />
         {/*
 
    
         <Route path="/user/dashboard" element={<UserDashboard />} />
 
-        <Route path="/owner/dashboard" element={<OwnerDashboard />} />
 
      
         <Route path="*" element={<NotFound />} /> */}

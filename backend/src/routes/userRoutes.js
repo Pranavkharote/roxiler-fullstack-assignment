@@ -4,12 +4,13 @@ const userController = require("../controllers/userController");
 const auth = require("../middleware/auth");
 const roleCheck = require("../middleware/roleCheck");
 
+
 router.use(auth);
 router.use(roleCheck("NORMAL_USER"));
 
-router.post("/rate-store", userController.rateStore);
+router.post("/rate-store", userController.addOrUpdate);
 
-router.put("/rate-store", userController.updateRating);
+// router.put("/rate-store", userController.updateRating);
 router.get("/stores", userController.getStores)
 
 module.exports = router;

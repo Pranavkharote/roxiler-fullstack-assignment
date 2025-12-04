@@ -1,11 +1,13 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axiosInstance";
+
 import { AuthContext } from "../context/AuthContext.jsx";
 
 export default function Login() {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
+  const { logOut } = useContext(AuthContext);
 
   const [form, setForm] = useState({
     email: "",
@@ -44,10 +46,10 @@ export default function Login() {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "40px auto" }}>
-      <h2>Login</h2>
+    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow">
+      <h2 className="text-xl font-semibold mb-4">Login</h2>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className="text-red-300">{error}</p>}
 
       <form onSubmit={handleSubmit}>
         <input
@@ -57,7 +59,7 @@ export default function Login() {
           value={form.email}
           onChange={handleChange}
           required
-          style={{ width: "100%", padding: "10px", margin: "8px 0" }}
+         className="w-full border p-2 rounded"
         />
 
         <input
@@ -67,21 +69,16 @@ export default function Login() {
           value={form.password}
           onChange={handleChange}
           required
-          style={{ width: "100%", padding: "10px", margin: "8px 0" }}
+        className="w-full border p-2 rounded mt-4"
         />
 
         <button
           type="submit"
-          style={{
-            width: "100%",
-            padding: "10px",
-            marginTop: "10px",
-            cursor: "pointer",
-          }}
+         className="w-full py-2 bg-gray-800 text-white rounded mt-4"
         >
           Login
         </button>
-        <button onClick={() => navigate("/user/update-password")}>
+        <button  className="w-full py-2 text-blue-600 rounded" onClick={() => navigate("/user/update-password")}>
   Update Password
 </button>
 

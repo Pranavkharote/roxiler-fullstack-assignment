@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import api from "../../api/axiosInstance";
 import { useNavigate } from "react-router-dom";
 
@@ -24,9 +24,8 @@ export default function AddUser() {
 
     try {
       const res = await api.post("/admin/add-user", form);
-      setMessage(res.data.message);
+      setMessage(res.data.message || "User created");
 
-      // after creation, send admin to user list
       setTimeout(() => navigate("/admin/dashboard"), 1000);
     } catch (err) {
       setMessage(err.response?.data?.message || "Error creating user");
@@ -34,19 +33,23 @@ export default function AddUser() {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "40px auto" }}>
-      <h2>Add New User</h2>
+    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow">
 
-      {message && <p>{message}</p>}
+      <h2 className="text-xl font-semibold mb-4">Add New User</h2>
 
-      <form onSubmit={handleSubmit}>
+      {message && (
+        <p className="mb-4 text-sm text-blue-700">{message}</p>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-4">
 
         <input
           type="text"
           name="name"
-          placeholder="Full Name (20–60 characters)"
+          placeholder="Full Name"
           value={form.name}
           onChange={handleChange}
+          className="w-full border p-2 rounded"
           required
         />
 
@@ -56,33 +59,46 @@ export default function AddUser() {
           placeholder="Email"
           value={form.email}
           onChange={handleChange}
+          className="w-full border p-2 rounded"
           required
         />
 
         <input
           type="password"
           name="password"
-          placeholder="Password (8–16 chars, uppercase + special char)"
+          placeholder="Password"
           value={form.password}
           onChange={handleChange}
+          className="w-full border p-2 rounded"
           required
         />
 
         <textarea
           name="address"
-          placeholder="Address (max 400 characters)"
+          placeholder="Address"
           value={form.address}
           onChange={handleChange}
+          className="w-full border p-2 rounded"
           required
         />
 
-        <select name="role" value={form.role} onChange={handleChange}>
+        <select
+          name="role"
+          value={form.role}
+          onChange={handleChange}
+          className="w-full border p-2 rounded"
+        >
           <option value="SYSTEM_ADMIN">System Admin</option>
           <option value="NORMAL_USER">Normal User</option>
           <option value="STORE_OWNER">Store Owner</option>
         </select>
 
-        <button type="submit">Create User</button>
+        <button
+          type="submit"
+          className="w-full py-2 bg-gray-800 text-white rounded"
+        >
+          Create User
+        </button>
       </form>
     </div>
   );

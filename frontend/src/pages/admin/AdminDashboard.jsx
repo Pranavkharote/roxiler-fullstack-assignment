@@ -1,14 +1,12 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/axiosInstance";
-// i kept UsersList here, but you can remove if needed
 import UsersList from "./UsersList";
 import StoresList from "./StoreList";
 
-function AdminDashboard () {
+function AdminDashboard() {
   const navigate = useNavigate();
 
-  // dashboard Stats
   const [stats, setStats] = useState({
     total_users: 0,
     total_stores: 0,
@@ -19,67 +17,109 @@ function AdminDashboard () {
 
   useEffect(() => {
     api.get("/admin/dashboard")
-      .then((r) => {
-        if (r?.data) {
-          setStats(r.data);
-        }
+      .then((res) => {
+        if (res?.data) setStats(res.data);
       })
-      .catch((e) => {
-        console.log("err loading dashboard", e);
+      .catch((err) => {
+        console.log("dashboard load error", err);
       })
       .finally(() => {
         setLoading(false);
       });
   }, []);
 
-  const goTo = (path) => {
-    navigate(path);
-  };
+  const goTo = (path) => navigate(path);
 
   if (loading) {
-    return <p>Loading...</p>
+    return <p className="p-6">Loading...</p>;
   }
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2 style={{ marginBottom: 15 }}>Admin Dashboard</h2>
+    <div className="min-h-screen bg-gray-100 p-5">
 
-      <div style={{ marginBottom: 25 }}>
-        <div><b>Total Users:</b> {stats.total_users}</div>
-        <div><b>Total Stores:</b> {stats.total_stores}</div>
-        <div><b>Total Ratings:</b> {stats.total_ratings}</div>
+      
+      <div className="mb-6 bg-white shadow-sm p-4 rounded-md flex items-center justify-between">
+        <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+    
       </div>
 
-      <div style={{ display: "flex", gap: "10px", flexWrap:"wrap", marginBottom: "25px" }}>
-        <button onClick={() => goTo("/admin/add-user")} style={btnStyle}>
-          Add User
-        </button>
+    
+      <div className="bg-white shadow-md rounded-md p-5 mb-6">
 
-        <button onClick={() => goTo("/admin/add-store")} style={btnStyle}>
-          Add Store
-        </button>
+        <h2 className="text-lg font-semibold mb-4">Overview</h2>
 
-        <button onClick={() => goTo("/admin/users")} style={btnStyle}>
-          View Users
-        </button>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+          <div className="p-4 border rounded-md bg-gray-50">
+            <div className="text-sm font-medium text-gray-500">Total Users</div>
+            <div className="text-xl font-bold">{stats.total_users}</div>
+          </div>
 
-        <button onClick={() => goTo("/admin/stores")} style={btnStyle}>
-          View Stores
-        </button>
+          <div className="p-4 border rounded-md bg-gray-50">
+            <div className="text-sm font-medium text-gray-500">Total Stores</div>
+            <div className="text-xl font-bold">{stats.total_stores}</div>
+          </div>
+
+          <div className="p-4 border rounded-md bg-gray-50">
+            <div className="text-sm font-medium text-gray-500">Total Ratings</div>
+            <div className="text-xl font-bold">{stats.total_ratings}</div>
+          </div>
+        </div>
+
+      
+        <div className="flex gap-3 flex-wrap mt-5">
+          <button
+            onClick={() => goTo("/admin/add-user")}
+            className="px-4 py-2 text-sm bg-gray-800 text-white rounded border border-black"
+          >
+            Add User
+          </button>
+          {/* <button
+            onClick={() => goTo("/admin/add-user")}
+            
+          >
+            Add User
+          </button> */}
+
+          <button
+            onClick={() => goTo("/admin/add-store")}
+            className="px-4 py-2 text-sm bg-gray-800 text-white rounded border border-black"
+          >
+            Add Store
+          </button>
+
+          <button
+            onClick={() => goTo("/admin/users")}
+            className="px-4 py-2 text-sm bg-gray-800 text-white rounded border border-black"
+          >
+            View Users
+          </button>
+
+          <button
+            onClick={() => goTo("/admin/stores")}
+            className="px-4 py-2 text-sm bg-gray-800 text-white rounded border border-black"
+          >
+            View Stores
+          </button>
+        </div>
       </div>
 
-     
-      <UsersList />
-      <StoresList/>
+      
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      
+        <div className="bg-white p-4 rounded-md shadow-sm">
+          <h3 className="text-lg font-semibold mb-3">Users</h3>
+          <UsersList />
+        </div>
+
+        
+        <div className="bg-white p-4 rounded-md shadow-sm">
+          <h3 className="text-lg font-semibold mb-3">Stores</h3>
+          <StoresList />
+        </div>
+      </div>
+
     </div>
   );
 }
-
-const btnStyle = {
-  padding: "8px 14px",
-  border: "1px solid #444",
-  background: "#efefef",
-  cursor: "pointer"
-};
 
 export default AdminDashboard;
