@@ -7,7 +7,7 @@ const register = async (req, res) => {
   const { name, email, password, address } = req.body;
 
   try {
-    // ✅ Check existing user
+
     const exists = await pool.query(
       "SELECT id FROM users WHERE email=$1",
       [email]
@@ -17,14 +17,11 @@ const register = async (req, res) => {
       return res.status(400).json({ msg: "Email already exists" });
     }
 
-    // ✅ Hash password
     const hashed = await bcrypt.hash(password, 10);
-
-    // ✅ Always insert NORMAL USER (role_id = 2)
     await pool.query(
       `INSERT INTO users (name, email, password, address, role_id)
        VALUES ($1, $2, $3, $4, $5)`,
-      [name, email, hashed, address, 3]
+      [name, email, hashed, address, 2]
     );
 
     res.status(201).json({ msg: "User registered successfully" });
@@ -96,16 +93,14 @@ const updatePassword = async (req, res) => {
 
     const user = userRes.rows[0];
 
-    // checking old password
+    
     const match = await bcrypt.compare(oldPass, user.password);
     if (!match) {
       return res.status(400).json({ msg: "old password incorrect" });
     }
 
-    // hash new password
     const hashed = await bcrypt.hash(newPass, 10);
 
-    // update
     await pool.query(
       "UPDATE users SET password=$1 WHERE id=$2",
       [hashed, userId]

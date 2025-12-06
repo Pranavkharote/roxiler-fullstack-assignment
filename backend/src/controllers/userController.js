@@ -103,7 +103,7 @@ exports.getStores = async (req, res) => {
 
 
 exports.addOrUpdate = async (req, res) => {
-  const userId = req.user.userId;     // from token
+  const userId = req.user.userId;    
   const { store_id, rating } = req.body;
 
   if (!store_id || !rating) {
@@ -131,7 +131,7 @@ exports.addOrUpdate = async (req, res) => {
       return res.json({ msg: "rating updated" });
     }
 
-    // insert new
+    // inserting the new rating s from user
     await pool.query(
       "INSERT INTO ratings (user_id, store_id, rating) VALUES ($1, $2, $3)",
       [userId, store_id, rating]

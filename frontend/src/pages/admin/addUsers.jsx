@@ -34,7 +34,7 @@ export default function AddUser() {
     } catch (err) {
       const msg = err?.response?.data?.msg || "Something went wrong";
 
-      // Custom password message
+      
       // console.log(err.response)
       if (msg.toLowerCase().includes("pattern")) {
         setMessage("Password length should be greater than 8");

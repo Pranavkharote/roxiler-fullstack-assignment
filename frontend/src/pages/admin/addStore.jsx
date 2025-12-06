@@ -20,16 +20,14 @@ export default function AddStore() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  // Fetch store owners (role = STORE_OWNER)
   useEffect(() => {
     let mounted = true;
     setLoadingOwners(true);
     api.get("/admin/get-users?role=STORE_OWNER")
       .then(res => {
         if (!mounted) return;
-        // API returns { users: [...] } where each user contains id, name, email, role...
+       
         setOwners(res.data.users || []);
-        // if there is at least one owner, preselect first to avoid empty owner_id
         if ((res.data.users || []).length > 0) {
           setForm(prev => ({ ...prev, owner_id: res.data.users[0].id }));
         }
@@ -52,7 +50,7 @@ export default function AddStore() {
     setMessage(""); setError("");
     console.log(form)
 
-    // basic client-side validation
+
     if (!form.name.trim() || !form.address.trim() || !form.owner_id) {
       setError("Name, address and owner are required.");
       return;
@@ -61,7 +59,7 @@ export default function AddStore() {
     try {
       const res = await api.post("/admin/add-store", form);
       setMessage(res.data?.message || "Store created successfully");
-      // redirect to stores list after short delay
+      
       toast.success(res.data.message);
       setTimeout(() => navigate("/admin/stores"), 900);
     } catch (err) {
@@ -72,7 +70,7 @@ export default function AddStore() {
   };
 
   return (
-    <div style={{ maxWidth: 700, margin: "32px auto", padding: 16 }}>
+    <div className="max-w-[700px] mt-8 mb-8 mx-auto p-16px" >
       <h2 className="text-lg font-bold">Add New Store</h2>
 
       <form onSubmit={handleSubmit} className="grid gap-2">

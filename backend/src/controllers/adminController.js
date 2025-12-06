@@ -24,6 +24,8 @@ exports.addUser = async (req, res) => {
     }
 
     const roleId = roleResult.rows[0].id;
+    // const roleId = roleResult.rows.id;
+    // const roleId = roleResult.rows[0].id;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 

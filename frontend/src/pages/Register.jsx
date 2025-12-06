@@ -14,7 +14,7 @@ export default function Signup() {
     email: "",
     password: "",
     address: "",
-    // role: "NORMAL_USER".   // fixed role here
+    // role: "NORMAL_USER".  
   });
 
   const [msg, setMsg] = useState("");
@@ -33,18 +33,17 @@ export default function Signup() {
     setMsg("");
 
     try {
-      // normal user signup endpoint
+      
       const res = await api.post("/auth/register", form);
       setMsg(res.data.message || "Account created");
       toast.success(res.data.msg)
 
-      // small delay then go to login
+      
       setTimeout(() => navigate("/"), 800);
     } 
     catch (error) {
   const msg = error?.response?.data?.msg || "Something went wrong";
 
-  // Custom password message
   console.log(error.response)
   if (msg.toLowerCase().includes("pattern")) {
     setErr("Password length should be greater than 8");
@@ -104,7 +103,7 @@ export default function Signup() {
           className="w-full border p-2 rounded mb-3"
         />
 
-        {/* role input locked to normal user */}
+        
         <input
           type="hidden"
           name="role"

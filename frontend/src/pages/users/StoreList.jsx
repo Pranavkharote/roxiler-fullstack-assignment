@@ -73,7 +73,6 @@ function StoreList() {
 
   return (
     <div className="p-6 max-w-2xl mx-auto">
-
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-2xl font-semibold">All Stores</h2>
 
@@ -87,7 +86,6 @@ function StoreList() {
 
       {msg && <p className="text-green-600 mb-3">{msg}</p>}
 
-      {/* Search Bar */}
       <input
         type="text"
         placeholder="Search by name, address, email..."
@@ -122,33 +120,33 @@ function StoreList() {
               <div>Your Rating: {st.user_rating || "N/A"}</div>
 
               <div className="mt-3 flex items-center">
-            <div className="flex items-center gap-1">
-  {[1, 2, 3, 4, 5].map((star) => (
-    <button
-      key={star}
-      type="button"
-      onClick={() =>
-        setRatingInput({
-          ...ratingInput,
-          [st.id]: star,
-        })
-      }
-      className="focus:outline-none"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        className={`w-6 h-6 transition ${
-          star <= (ratingInput[st.id] || 0)
-            ? "fill-yellow-400"
-            : "fill-gray-300"
-        }`}
-      >
-        <path d="M12 17.3l6.18 3.7-1.64-7.03L21.5 9.24l-7.19-.61L12 2 9.69 8.63 2.5 9.24l4.96 4.73L5.82 21z" />
-      </svg>
-    </button>
-  ))}
-</div>
+                <div className="flex items-center gap-1">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      onClick={() =>
+                        setRatingInput({
+                          ...ratingInput,
+                          [st.id]: star,
+                        })
+                      }
+                      className="focus:outline-none"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        className={`w-6 h-6 transition ${
+                          star <= (ratingInput[st.id] || 0)
+                            ? "fill-yellow-400"
+                            : "fill-gray-300"
+                        }`}
+                      >
+                        <path d="M12 17.3l6.18 3.7-1.64-7.03L21.5 9.24l-7.19-.61L12 2 9.69 8.63 2.5 9.24l4.96 4.73L5.82 21z" />
+                      </svg>
+                    </button>
+                  ))}
+                </div>
 
                 <button
                   onClick={() => handleRate(st.id)}
@@ -166,4 +164,3 @@ function StoreList() {
 }
 
 export default StoreList;
-

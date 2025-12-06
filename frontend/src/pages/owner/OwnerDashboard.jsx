@@ -61,7 +61,7 @@ function OwnerDashboard() {
 
       <h2 className="text-xl font-semibold mb-3">Owner Dashboard</h2>
 
-      {/* Store Details */}
+
       <div className="bg-gray-100 p-4 rounded mb-6">
         <p>
           <b>Store:</b> {data.store.name}
@@ -102,7 +102,7 @@ function OwnerDashboard() {
         </table>
       )}
 
-      {/* optional message display */}
+     
       {msg && <p className="mt-3 text-red-600">{msg}</p>}
     </div>
   );
