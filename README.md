@@ -91,7 +91,7 @@ With proper **foreign key constraints** for data integrity.
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone <your-github-repo-url>
+git clone https://github.com/Pranavkharote/roxiler-fullstack-assignment.git
 cd roxiler-fullstack-assignment
 
 cd backend
