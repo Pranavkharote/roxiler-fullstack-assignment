@@ -22,6 +22,9 @@ The UI is designed for **clarity, usability, and recruiter-friendly demo flow**.
 
 ---
 
+### Watch the Live Demo
+https://drive.google.com/file/d/1hexO1CtHT0X0W7tfRnsf48QiPsVB8M_l/view
+
 ## 🛠 Tech Stack
 
 ### Frontend
