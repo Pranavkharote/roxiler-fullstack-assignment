@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import api from "../../api/axiosInstance";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 export default function AddStore() {
   const navigate = useNavigate();
@@ -47,6 +50,7 @@ export default function AddStore() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage(""); setError("");
+    console.log(form)
 
     // basic client-side validation
     if (!form.name.trim() || !form.address.trim() || !form.owner_id) {
@@ -58,39 +62,39 @@ export default function AddStore() {
       const res = await api.post("/admin/add-store", form);
       setMessage(res.data?.message || "Store created successfully");
       // redirect to stores list after short delay
+      toast.success(res.data.message);
       setTimeout(() => navigate("/admin/stores"), 900);
     } catch (err) {
       console.error("Add store failed:", err);
       setError(err.response?.data?.message || "Failed to create store");
+      toast.error(error)
     }
   };
 
   return (
     <div style={{ maxWidth: 700, margin: "32px auto", padding: 16 }}>
-      <h2>Add New Store</h2>
+      <h2 className="text-lg font-bold">Add New Store</h2>
 
-      {message && <div style={{ color: "green", margin: "8px 0" }}>{message}</div>}
-      {error && <div style={{ color: "red", margin: "8px 0" }}>{error}</div>}
-
-      <form onSubmit={handleSubmit} style={{ display: "grid", gap: 12 }}>
+      <form onSubmit={handleSubmit} className="grid gap-2">
+      <label for="name" className="mt-3">Name</label>
         <input
           name="name"
           value={form.name}
           onChange={handleChange}
           placeholder="Store name"
           required
-          style={{ padding: 10 }}
+           className="w-full border p-2 rounded "
         />
-
+<label for="email" className="mt-3">Email</label>
         <input
           name="email"
           type="email"
           value={form.email}
           onChange={handleChange}
-          placeholder="Store email (optional)"
-          style={{ padding: 10 }}
+          placeholder="Store email "
+          className="w-full border p-2 rounded"
         />
-
+<label for="address" className="mt-3">Address</label>
         <textarea
           name="address"
           value={form.address}
@@ -98,15 +102,15 @@ export default function AddStore() {
           placeholder="Address"
           required
           rows={3}
-          style={{ padding: 10 }}
+          className="w-full border p-2 rounded"
         />
 
         <label>
-          <div style={{ marginBottom: 6 }}>Select Store Owner</div>
+          <div >Select Store Owner</div>
           {loadingOwners ? (
             <div>Loading owners...</div>
           ) : owners.length === 0 ? (
-            <div style={{ color: "orange" }}>
+            <div className="text-orange-400" >
               No store owners found. Create a store owner first via Add User (role = STORE_OWNER).
             </div>
           ) : (
@@ -115,7 +119,7 @@ export default function AddStore() {
               value={form.owner_id}
               onChange={handleChange}
               required
-              style={{ padding: 10 }}
+              className="p-3 bg-gray-300"
             >
               {owners.map(o => (
                 <option key={o.id} value={o.id}>
@@ -126,11 +130,11 @@ export default function AddStore() {
           )}
         </label>
 
-        <div style={{ display: "flex", gap: 8 }}>
+        <div className="flex gap-8">
           <button
             type="submit"
-            disabled={loadingOwners || owners.length === 0}
-            style={{ padding: "10px 16px", cursor: "pointer" }}
+            // disabled={loadingOwners || owners.length === 0}
+           className="w-full border p-2 rounded mt-4 bg-blue-500"
           >
             Create Store
           </button>
@@ -138,12 +142,13 @@ export default function AddStore() {
           <button
             type="button"
             onClick={() => navigate("/admin/stores")}
-            style={{ padding: "10px 16px", cursor: "pointer" }}
+            className="p-3 cursor-pointer"
           >
             Cancel
           </button>
         </div>
       </form>
+    <ToastContainer/>
     </div>
   );
 }

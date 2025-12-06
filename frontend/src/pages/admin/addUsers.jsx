@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import api from "../../api/axiosInstance";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 export default function AddUser() {
   const navigate = useNavigate();
@@ -25,24 +28,31 @@ export default function AddUser() {
     try {
       const res = await api.post("/admin/add-user", form);
       setMessage(res.data.message || "User created");
-
+      toast.success(res.data.message);
+      console.log(res.data);
       setTimeout(() => navigate("/admin/dashboard"), 1000);
     } catch (err) {
-      setMessage(err.response?.data?.message || "Error creating user");
+      const msg = err?.response?.data?.msg || "Something went wrong";
+
+      // Custom password message
+      // console.log(err.response)
+      if (msg.toLowerCase().includes("pattern")) {
+        setMessage("Password length should be greater than 8");
+        toast.error("Password length should be greater than 8");
+      } else {
+        setMessage(msg);
+        toast.error(msg);
+        // setMessage(err.response?.data?.message || "Error creating user")
+        // toast.error(err.response.data.msg);
+      }
     }
   };
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow">
-
       <h2 className="text-xl font-semibold mb-4">Add New User</h2>
 
-      {message && (
-        <p className="mb-4 text-sm text-blue-700">{message}</p>
-      )}
-
       <form onSubmit={handleSubmit} className="space-y-4">
-
         <input
           type="text"
           name="name"
@@ -100,6 +110,7 @@ export default function AddUser() {
           Create User
         </button>
       </form>
+      <ToastContainer />
     </div>
   );
 }

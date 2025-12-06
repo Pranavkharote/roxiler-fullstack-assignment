@@ -1,7 +1,9 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axiosInstance";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { AuthContext } from "../context/AuthContext.jsx";
 
 export default function Login() {
@@ -32,6 +34,7 @@ export default function Login() {
       const role = res.data.user.role;
 
       // Redirect based on role
+      toast.success("Logged In Successfully!")
       if (role === "SYSTEM_ADMIN") {
         navigate("/admin/dashboard");
       } else if (role === "STORE_OWNER") {
@@ -41,7 +44,9 @@ export default function Login() {
       }
 
     } catch (err) {
-      setError(err.response?.data?.message || "Invalid credentials");
+      setError(err.response?.data?.msg || "Invalid credentials");
+      console.log(err.response.data)
+      toast.error(err.response.data.message)
     }
   };
 
@@ -92,6 +97,24 @@ export default function Login() {
 </button>
 
       </form>
+      <div className="mb-6 rounded-lg border border-gray-300 bg-gray-50 p-4 text-sm">
+  <h3 className="font-semibold mb-2 text-gray-800">
+    Demo Login Accounts
+  </h3>
+
+  <div className="space-y-2 text-gray-700">
+    <p>
+      <span className="font-medium">Admin:</span> admin@roxiler.com / Admin@123
+    </p>
+    <p>
+      <span className="font-medium">Store Owner:</span> owner@store.com / Owner@123
+    </p>
+    <p>
+      <span className="font-medium">Normal User:</span> user@test.com / User@12345
+    </p>
+  </div>
+</div>
+<ToastContainer/>
     </div>
   );
 }

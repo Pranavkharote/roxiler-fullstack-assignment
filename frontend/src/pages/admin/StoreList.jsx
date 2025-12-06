@@ -148,7 +148,7 @@ export default function StoresList() {
                   <td className="p-3">{store.name}</td>
                   <td className="p-3">{store.email || "—"}</td>
                   <td className="p-3">{store.address}</td>
-                  <td className="p-3">{store.owner}</td>
+                  <td className="p-3">{store.owner_name}</td>
                   <td className="p-3">{Number(store.avg_rating).toFixed(1)}</td>
                 </tr>
               ))}
