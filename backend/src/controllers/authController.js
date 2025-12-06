@@ -24,7 +24,7 @@ const register = async (req, res) => {
     await pool.query(
       `INSERT INTO users (name, email, password, address, role_id)
        VALUES ($1, $2, $3, $4, $5)`,
-      [name, email, hashed, address, 2]
+      [name, email, hashed, address, 3]
     );
 
     res.status(201).json({ msg: "User registered successfully" });
