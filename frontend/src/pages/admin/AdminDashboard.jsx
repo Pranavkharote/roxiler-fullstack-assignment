@@ -29,7 +29,11 @@ function AdminDashboard() {
   }, []);
 
   const goTo = (path) => navigate(path);
-
+ const logout = () => {
+    localStorage.clear();
+    navigate("/")
+  
+  };
   if (loading) {
     return <p className="p-6">Loading...</p>;
   }
@@ -37,7 +41,7 @@ function AdminDashboard() {
   return (
     <div className="min-h-screen bg-gray-100 p-5">
 
-      
+      <button className="text-blue-400"  onClick={logout}>LogOut</button>
       <div className="mb-6 bg-white shadow-sm p-4 rounded-md flex items-center justify-between">
         <h1 className="text-2xl font-bold">Admin Dashboard</h1>
     
@@ -104,7 +108,7 @@ function AdminDashboard() {
       </div>
 
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       
         <div className="bg-white p-4 rounded-md shadow-sm">
           <h3 className="text-lg font-semibold mb-3">Users</h3>
@@ -116,7 +120,7 @@ function AdminDashboard() {
           <h3 className="text-lg font-semibold mb-3">Stores</h3>
           <StoresList />
         </div>
-      </div>
+      </div> */}
 
     </div>
   );

@@ -7,26 +7,34 @@ const register = async (req, res) => {
   const { name, email, password, address } = req.body;
 
   try {
-    const exists = await pool.query("SELECT * FROM users WHERE email=$1", [
-      email,
-    ]);
+    // ✅ Check existing user
+    const exists = await pool.query(
+      "SELECT id FROM users WHERE email=$1",
+      [email]
+    );
+
     if (exists.rows.length > 0) {
-      return res.status(400).json({ message: "Email already exists" });
+      return res.status(400).json({ msg: "Email already exists" });
     }
 
+    // ✅ Hash password
     const hashed = await bcrypt.hash(password, 10);
 
+    // ✅ Always insert NORMAL USER (role_id = 2)
     await pool.query(
       `INSERT INTO users (name, email, password, address, role_id)
        VALUES ($1, $2, $3, $4, $5)`,
       [name, email, hashed, address, 2]
     );
-    res.json({ message: "User Registered successfully." });
+
+    res.status(201).json({ msg: "User registered successfully" });
+
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ msg: "Server error" });
   }
 };
+
 
 const login = async (req, res) => {
   const { email, password } = req.body;

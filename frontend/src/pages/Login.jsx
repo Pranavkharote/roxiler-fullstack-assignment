@@ -78,6 +78,15 @@ export default function Login() {
         >
           Login
         </button>
+        <p className="mt-3 text-sm">
+          Don't have an account?
+          <span
+            className="text-blue-600 cursor-pointer ml-1"
+            onClick={() => navigate("/register")}
+          >
+            Create Account
+          </span>
+          </p>
         <button  className="w-full py-2 text-blue-600 rounded" onClick={() => navigate("/user/update-password")}>
   Update Password
 </button>

@@ -8,6 +8,7 @@ import AddUser from "./pages/admin/addUsers";
 import AddStore from "./pages/admin/AddStore";
 import UsersList from "./pages/admin/UsersList";
 import StoreList from "./pages/admin/StoreList";
+import Register from "./pages/Register"
 import React from "react";
 // import StoreList from "./pages/user/StoreList";
 import UpdatePassword from "./pages/updatePassword";
@@ -24,9 +25,9 @@ export default function App() {
 
         <Route path="/" element={<Login />} />
         {/* Public
-        <Route path="/register" element={<Register />} />
 
       */} 
+        <Route path="/register" element={<Register />} />
           <Route path="/user/update-password" element={<UpdatePassword/>}/>
          <Route path="/admin/dashboard" element={<AdminDashboard />} /> 
         <Route path="/admin/add-user" element={<AddUser />} />

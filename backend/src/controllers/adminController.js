@@ -155,7 +155,45 @@ exports.getUsers = async (req, res) => {
 
 exports.getStores = async (req, res) => {
   try {
-    const result = await pool.query(`
+    const { name, email, address, owner, sort = "name", order = "asc" } = req.query;
+
+    const validSortFields = {
+      name: "stores.name",
+      email: "stores.email",
+      address: "stores.address",
+      owner: "users.name",
+      avg_rating: "avg_rating"
+    };
+
+    const sortField = validSortFields[sort] || "stores.name";
+    const sortOrder = order === "desc" ? "DESC" : "ASC";
+
+    const filters = [];
+    const params = [];
+
+    if (name) {
+      params.push(`%${name}%`);
+      filters.push(`stores.name ILIKE $${params.length}`);
+    }
+
+    if (email) {
+      params.push(`%${email}%`);
+      filters.push(`stores.email ILIKE $${params.length}`);
+    }
+
+    if (address) {
+      params.push(`%${address}%`);
+      filters.push(`stores.address ILIKE $${params.length}`);
+    }
+
+    if (owner) {
+      params.push(`%${owner}%`);
+      filters.push(`users.name ILIKE $${params.length}`);
+    }
+
+    const whereQuery = filters.length ? `WHERE ${filters.join(" AND ")}` : "";
+
+    const query = `
       SELECT 
         stores.id,
         stores.name,
@@ -166,9 +204,12 @@ exports.getStores = async (req, res) => {
       FROM stores
       JOIN users ON stores.owner_id = users.id
       LEFT JOIN ratings ON stores.id = ratings.store_id
+      ${whereQuery}
       GROUP BY stores.id, users.name
-      ORDER BY stores.name ASC;
-    `);
+      ORDER BY ${sortField} ${sortOrder};
+    `;
+
+    const result = await pool.query(query, params);
 
     res.json({ stores: result.rows });
 
@@ -177,4 +218,3 @@ exports.getStores = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
